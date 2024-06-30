@@ -82,7 +82,7 @@ public class MyArray {
     }
 ```
 
-See the [class file](./MyArray.java) from last week
+See the [class file](./src/MyArray.java) from last week
 
 ## Sorting by pairwise comparison
 
