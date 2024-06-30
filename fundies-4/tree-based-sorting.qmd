@@ -50,18 +50,18 @@ Q: sorting might in fact destroy some information. What might it be?
 
 $a\ =\ [ 5, 0, 2, 11^\prime, 18, 11^{\prime\prime}, 6, 36 ]$
 
-$a.sorted()\ =\ [ 0, 2, 5, 6, 11^\prime, 11^{\prime\prime}, 18, 36 ]$
+$a.sorted()\ \Rightarrow [ 0, 2, 5, 6, 11^\prime, 11^{\prime\prime}, 18, 36 ]$
 
 ## Concept check: sorting in Java
 
 ```java
 import java.util.Arrays;
 
-int[] MyArray = { 5, 0, 2, 11, 18, 11, 6, 36 };
+int[] myArray = { 5, 0, 2, 11, 18, 11, 6, 36 };
 
-Arrays.sort(MyArray);
+Arrays.sort(myArray);
 
-System.out.println(Arrays.toString(MyArray));
+System.out.println(Arrays.toString(myArray));
 ```
 
 [![](https://avatars.githubusercontent.com/u/41768318?s=200&v=4)](https://github.com/openjdk/jdk/blob/master/src/java.base/share/classes/java/util/Arrays.java)
@@ -76,6 +76,7 @@ public class MyArray {
     private int size; // Number of actual elements in the array
 
     // Constructor to initialize the internal array
+    // capacity is the maximun allowed number of elements
     public MyArray(int capacity) {
         arrayData = new int[capacity];
         size = 0;
@@ -108,50 +109,48 @@ See the [class file](./src/MyArray.java) from last week
 -----
 
 ```java
-    // Method to sort the array
-    public void sort() {
-        // Simple implementation of the Bubble Sort algorithm
-        for (int i = 0; i < size - 1; i++) {
-            for (int j = 0; j < size - i - 1; j++) {
-                if (arrayData[j] > arrayData[j + 1]) {
-                    // Swap arrayData[j] and arrayData[j+1]
-                    int temp = arrayData[j];
-                    arrayData[j] = arrayData[j + 1];
-                    arrayData[j + 1] = temp;
-                }
-            }
-        }
-    }
+// Method to sort the array
+public void sort() {
+    // Simple implementation of the Bubble Sort algorithm
+    for (int i = 0; i < size - 1; i++) {
+        for (int j = 0; j < size - i - 1; j++) {
+            if (arrayData[j] > arrayData[j + 1]) {
+                // Swap arrayData[j] and arrayData[j+1]
+                int temp = arrayData[j];
+                arrayData[j] = arrayData[j + 1];
+                arrayData[j + 1] = temp;
+    ...
 ```
 
 ![](./imgs/bs-intermediate.png)
 
 - values in green are in their final position
 
-- their array index corresponds to their ranking: the number of less-than-or-equal elements.
-
 - *all blue elements have been seen already and we have ideas about where they will likely end up...*
 
 -----
 
 ```java
-    // Method to sort the array
-    public void sort() {
-        // Simple implementation of the Bubble Sort algorithm
-        for (int i = 0; i < size - 1; i++) {
-            for (int j = 0; j < size - i - 1; j++) {
-                if (arrayData[j] > arrayData[j + 1]) {
-                    // Swap arrayData[j] and arrayData[j+1]
-                    int temp = arrayData[j];
-                    arrayData[j] = arrayData[j + 1];
-                    arrayData[j + 1] = temp;
-                }
+// Method to sort the array
+public void sort() {
+    // Simple implementation of the Bubble Sort algorithm
+    for (int i = 0; i < size - 1; i++) {
+        for (int j = 0; j < size - i - 1; j++) {
+            if (arrayData[j] > arrayData[j + 1]) {
+                // Swap arrayData[j] and arrayData[j+1]
+                int temp = arrayData[j];
+                arrayData[j] = arrayData[j + 1];
+                arrayData[j + 1] = temp;
             }
         }
     }
+}
 ```
 
 ![](./imgs/bs-final.png)
+
+
+- green elem. have indices corresponding to their ranking: the no. of $\leq$ elements.
 
 -----
 
@@ -161,10 +160,11 @@ See the [class file](./src/MyArray.java) from last week
 
 - what if the data is already half-sorted?
 
-```quote
-Sorting often takes place after an update to one or more values destroys the sorted property of the array.
-So, sorting is called to re-establish the property.
-```
+
+> *Sorting often takes place after an update to one or more values destroys the sorted property of the array.*
+> *So, sorting is called to re-establish the property.*
+
+Example:
 
 $b\ =\ [ 0, 2, 6, 5, 11, 11, 18, 36 ]$
 
@@ -178,7 +178,7 @@ $b\ =\ [ 0, 2, 6, 5, 11, 11, 18, 36 ]$
 
 - our BubbleSort algorithm won't scale up to web data, log analysis, machine learning etc.
 
-- we need an algorithm that looks at data and only carries out the needed comparisons/swaps.
+- we need algorithms that looks at data and carry out only as many comparisons/swaps as needed.
 
 ## The tree metaphor
 
@@ -194,7 +194,7 @@ The new structure has visual properties that simplify algorithm design and analy
 - each element has access to 0..k elements, called *children*
 - siblings are not connected to each other directly
 - childless elements are called leaves
-- the *height* of the tree is defined as the *longest* root-leaf connection.
+- the *height* of the tree is defined as the *longest* root-to-leaf path.
 
 ## A Binary tree
 
@@ -203,6 +203,7 @@ Assumption: let k=2.
 Children elements will be *left* and *right,* resp.
 
 ```{mermaid}
+%%| echo: false
 stateDiagram-v2
     [*] --> 18
 
@@ -222,11 +223,9 @@ stateDiagram-v2
 
 - left children are always less than or equal than their parent
   
-::: {.incremental}
-- right children are always greater than their parent.
-:::
 
 ```{mermaid}
+%%| echo: false
 stateDiagram-v2
     [*] --> 11'
 
@@ -242,13 +241,18 @@ stateDiagram-v2
     2 --> 0
 ```
 
-(here *11* stands for *11''*)
+::: {.incremental}
+- right children are always greater than their parent.
+
+- all sub-trees (a child and its descendants) also are BSTs
+:::
 
 -----
 
-## BST position is related to ranking 
+## Position on the BST relates to ranking 
 
 ```{mermaid}
+%%| echo: false
 stateDiagram-v2
     [*] --> 11'
 
@@ -277,7 +281,7 @@ stateDiagram-v2
 
 
 ::: {.incremental}
-- in binary tree, *t[i]* is `next' to its parent, *t[parent(i)]* and up to two children: *myTree[left(i)]* and *t[right(i)].*
+- in binary tree, *tree[i]* is `next' to its parent, *tree[parent(i)]* and up to two children: *tree[left(i)]* and *tree[right(i)].*
   
 - fact: the binary tree organization can be implemented in RAM with no extra space and minimal time overhead to compute the *parent(), left()* and *right()* functions.
   
@@ -288,31 +292,154 @@ stateDiagram-v2
 
 The BST is a *view* over an array:
 
+```java
+int[] a = {18, 2, 6};
+```
+
 ```{mermaid}
+%%| echo: false
 stateDiagram-v2
-    [*] --> 18
+    a --> 18
 
     18 --> 2
     18 --> 6
 ```
 
-```java
-a = {18, 2, 6}
-```
 
-Assume indexing from 1 Try these functions:
+
+Assume indexing from 1 and try these functions:
 
 ```java
-left(i) = 2*i
+int left(int i) {return 2*i;}
+
+int left(int i) {return 2*i+1;}
+
+int parent(int i) {return (int) i/2;}
+```
+
+## Efficency
+
+- Thanks to binary representation, division/multiplication by 2 can be done in one machine instruction
+
+- visiting a BST is very efficient!
+
+```java
+// implements left()
+byte originalByte = 0b0011_0100; // 52 in binary
+
+int shiftedByte = originalByte << 1; // Shift left by 1 positions
 ```
 
 ```java
-right(i) = 2*i + 1
+// implents parent()
+byte originalByte = 0b0011_0100; // 52 in binary
+
+int shiftedByte = originalByte >> 1; // Shift right by 1 positions
+```
+
+## Create a BST from output, I
+
+```java
+// Define a class for the nodes of the tree
+class Node {
+    int value;
+    Node left, right;
+
+    public Node(int item) {
+        value = item;
+        left = right = null;
+    }
+}
 ```
 
 ```java
-left(i) = int(i/2)
+// Define the Binary Search Tree (BST) class
+class BinarySearchTree {
+    // Root of BST
+    Node root;
+
+    // Constructor
+    BinarySearchTree() {
+        root = null;
+    }
 ```
+
+## Create a BST from output, 2
+
+```java
+ // Method to insert a new key
+    void insert(int value) {
+        root = insertRec(root, value);
+    }
+
+    // Recursive insert function
+    Node insertRec(Node root, int value) {
+        // If the tree is empty, return a new node
+        if (root == null) {
+            root = new Node(value);
+            return root;
+        }
+
+        // Otherwise, recur down the tree
+        if (value < root.value)
+            root.left = insertRec(root.left, value);
+        else if (value > root.value)
+            root.right = insertRec(root.right, value);
+
+        // Return the (unchanged) node pointer
+        return root;
+    }
+```
+
+-----
+
+```java
+    // Method to conduct inorder traversal of the tree
+    void inorder() {
+        inorderRec(root);
+    }
+
+    // Recursive function for inorder traversal
+    void inorderRec(Node root) {
+        if (root != null) {
+            inorderRec(root.left);
+            System.out.print(root.value + " ");
+            inorderRec(root.right);
+        }
+    }
+```
+
+----
+
+```java
+
+    // Main method to test the BinarySearchTree class
+    public static void main(String[] args) {
+        BinarySearchTree bst = new BinarySearchTree();
+
+        // Insert values into BST
+        bst.insert(5);
+        bst.insert(0);
+        bst.insert(2);
+        bst.insert(11);
+        bst.insert(18);
+        bst.insert(11);
+        bst.insert(6);
+        bst.insert(36);
+        
+        // Print the inorder traversal of the BST
+        System.out.println("Inorder traversal of the BST:");
+        bst.inorder();
+    }
+}
+```
+
+
+
+
+
+
+
 
 
 
