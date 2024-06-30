@@ -4,6 +4,7 @@ public class MyArray {
     private int size; // Number of actual elements in the array
 
     // Constructor to initialize the internal array
+    // capacity is the maximun allowed number of elements
     public MyArray(int capacity) {
         arrayData = new int[capacity];
         size = 0;
