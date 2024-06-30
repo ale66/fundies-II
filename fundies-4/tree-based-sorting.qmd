@@ -1,0 +1,220 @@
+---
+title: "Tree-based sorting"
+lang: en
+author: AP
+format:
+  revealjs: 
+    theme: solarized
+    css: ../styles/dsta_slides.css
+    slide-number: true
+    slide-level: 2
+    code-fold: false
+    echo: true
+  html:
+    toc: true
+    code-fold: false
+    anchor-sections: true
+    other-links:
+      - text: Class page
+        href: https://ale66.github.io/fundies-II/
+    code-links:
+      - text: Data
+        icon: file-code
+        href: ./src/MyArray.java
+---
+
+![](./imgs/meme.jpg)
+
+
+## Concept check: Sorting
+
+input: a sequence of integers
+
+output: a reorganisation such that each element will be less than or equal the next
+
+$a\ =\ [ 5, 0, 2, 11, 18, 11, 6, 36 ]$
+
+$a.sorted()\ =\ [ 0, 2, 5, 6, 11, 11, 18, 36 ]$
+
+``easy to check, not so easy to establish''
+
+Q: sorting might in fact destroy some information. What might it be?
+
+-----
+
+- min, max and median are available in constant time: $a[0]$, $a[n-1]$ and $a[\frac{n}{2}]$, respectively.
+  
+- membership can be checked with $\log_2 n$ comparisons at most
+  
+- *stability:* multiple copies of the same number should keep their original ordering
+
+$a\ =\ [ 5, 0, 2, 11^\prime, 18, 11^{\prime\prime}, 6, 36 ]$
+
+$a.sorted()\ =\ [ 0, 2, 5, 6, 11^\prime, 11^{\prime\prime}, 18, 36 ]$
+
+## Concept check: sorting in Java
+
+```java
+import java.util.Arrays;
+
+int[] MyArray = { 5, 0, 2, 11, 18, 11, 6, 36 };
+
+Arrays.sort(MyArray);
+
+System.out.println(Arrays.toString(MyArray));
+```
+
+[![](https://avatars.githubusercontent.com/u/41768318?s=200&v=4)](https://github.com/openjdk/jdk/blob/master/src/java.base/share/classes/java/util/Arrays.java)
+
+-----
+
+## CC: build your arrays class
+
+```java
+public class MyArray {
+    private int[] arrayData; // Internal array to store elements
+    private int size; // Number of actual elements in the array
+
+    // Constructor to initialize the internal array
+    public MyArray(int capacity) {
+        arrayData = new int[capacity];
+        size = 0;
+    }
+```
+
+See the [class file](./MyArray.java) from last week
+
+## Sorting by pairwise comparison
+
+```java
+    // Method to sort the array
+    public void sort() {
+        // Simple implementation of the Bubble Sort algorithm
+        for (int i = 0; i < size - 1; i++) {
+            for (int j = 0; j < size - i - 1; j++) {
+                if (arrayData[j] > arrayData[j + 1]) {
+                    // Swap arrayData[j] and arrayData[j+1]
+                    int temp = arrayData[j];
+                    arrayData[j] = arrayData[j + 1];
+                    arrayData[j + 1] = temp;
+                }
+            }
+        }
+    }
+```
+
+![](./imgs/bs-initial.png)
+
+-----
+
+```java
+    // Method to sort the array
+    public void sort() {
+        // Simple implementation of the Bubble Sort algorithm
+        for (int i = 0; i < size - 1; i++) {
+            for (int j = 0; j < size - i - 1; j++) {
+                if (arrayData[j] > arrayData[j + 1]) {
+                    // Swap arrayData[j] and arrayData[j+1]
+                    int temp = arrayData[j];
+                    arrayData[j] = arrayData[j + 1];
+                    arrayData[j + 1] = temp;
+                }
+            }
+        }
+    }
+```
+
+![](./imgs/bs-intermediate.png)
+
+- values in green are in their final position
+
+- their array index corresponds to their ranking: the number of less-than-or-equal elements.
+
+- *all blue elements have been seen already and we have ideas about where they will likely end up...*
+
+-----
+
+```java
+    // Method to sort the array
+    public void sort() {
+        // Simple implementation of the Bubble Sort algorithm
+        for (int i = 0; i < size - 1; i++) {
+            for (int j = 0; j < size - i - 1; j++) {
+                if (arrayData[j] > arrayData[j + 1]) {
+                    // Swap arrayData[j] and arrayData[j+1]
+                    int temp = arrayData[j];
+                    arrayData[j] = arrayData[j + 1];
+                    arrayData[j + 1] = temp;
+                }
+            }
+        }
+    }
+```
+
+![](./imgs/bs-final.png)
+
+-----
+
+- only contigous elements will ever be swapped
+
+- all pairwise comparisons are attempted, often several times: is it really needed?
+
+- what if the data is already half-sorted?
+
+```quote
+Sorting often takes place after an update to one or more values destroys the sorted property of the array.
+So, sorting is called to re-establish the property.
+```
+
+$b\ =\ [ 0, 2, 6, 5, 11, 11, 18, 36 ]$
+
+## Cost analysis
+
+- when `i=0` the inner cycle on `j` executes n-1 times, 
+
+- then `i=1` and the inner cycle on `j` executes n-2 times, and so on.
+
+- all in all, the innermost code will execute about $\frac{n(n-1)}{2}\approx n^2$ times 
+
+- our BubbleSort algorithm won't scale up to web data, log analysis, machine learning etc.
+
+- we need an algorithm that looks at data and only carries out the needed comparisons/swaps.
+
+## The tree metaphor
+
+Idea: a data structure that stores values in a way that *represents* what is known about its *rank* in the final version of the sequence.
+
+It will reduce unnecessary comparisons.
+
+The new structure has visual properties that simplify algorithm design and analysis: it's everywhere in computer science.
+
+## A tree
+
+- a special *root* element which is directly accessible
+- each element has access to 0..k elements, called *children*
+- siblings are not connected to each other directly
+- childless elements are called leaves
+- the *height* of the tree is defined as the *longest* root-leaf connection.
+
+Assumption: let k=2. 
+
+We examine binary trees. Children elements will be *left* and *right,* resp.
+
+## Sorted trees
+
+Each left successor is less than or equal than the parent, each right successor is greater than it.
+
+
+
+
+
+
+## Build your class
+
+```java
+public class MyArray {
+    private int[] arrayData; // Internal array to store elements
+    private int size; // Number of actual elements in the array
+}
+```
+
