@@ -196,14 +196,123 @@ The new structure has visual properties that simplify algorithm design and analy
 - childless elements are called leaves
 - the *height* of the tree is defined as the *longest* root-leaf connection.
 
+## A Binary tree
+
 Assumption: let k=2. 
 
-We examine binary trees. Children elements will be *left* and *right,* resp.
+Children elements will be *left* and *right,* resp.
 
-## Sorted trees
+```{mermaid}
+stateDiagram-v2
+    [*] --> 18
 
-Each left successor is less than or equal than the parent, each right successor is greater than it.
+    18 --> 2
+    18 --> 6
 
+    2 --> 0
+    2 --> 11'
+
+    6 --> 11''
+    6 --> 36
+
+    0 --> 5
+```
+
+## A Binary Search Tree (BST)
+
+- left children are always less than or equal than their parent
+  
+::: {.incremental}
+- right children are always greater than their parent.
+:::
+
+```{mermaid}
+stateDiagram-v2
+    [*] --> 11'
+
+    11' --> 5
+    11' --> 18
+
+    5 --> 2
+    5 --> 6
+
+    18 --> 11
+    18 --> 36
+
+    2 --> 0
+```
+
+(here *11* stands for *11''*)
+
+-----
+
+## BST position is related to ranking 
+
+```{mermaid}
+stateDiagram-v2
+    [*] --> 11'
+
+    11' --> 5
+    11' --> 18
+
+    5 --> 2
+    5 --> 6
+
+    18 --> 11
+    18 --> 36
+
+    2 --> 0
+```
+
+
+::: {.incremental}
+- Q: where are min, max and median elements?
+
+- Q: Can you think of an algorithm that will print out the values in sorted fashion?
+:::
+
+## Tree as a data structure
+
+- in arrays, each element, say *a[i]* is `next' to two (at most): *a[i-1]* and *a[i+1]* 
+
+
+::: {.incremental}
+- in binary tree, *t[i]* is `next' to its parent, *t[parent(i)]* and up to two children: *myTree[left(i)]* and *t[right(i)].*
+  
+- fact: the binary tree organization can be implemented in RAM with no extra space and minimal time overhead to compute the *parent(), left()* and *right()* functions.
+  
+- elegant functions will implement ordered trees and make sort and in general accessing the sequence quick.
+:::
+
+## BST serialization
+
+The BST is a *view* over an array:
+
+```{mermaid}
+stateDiagram-v2
+    [*] --> 18
+
+    18 --> 2
+    18 --> 6
+```
+
+```java
+a = {18, 2, 6}
+```
+
+Assume indexing from 1 Try these functions:
+
+```java
+left(i) = 2*i
+```
+
+```java
+right(i) = 2*i + 1
+```
+
+```java
+left(i) = int(i/2)
+```
 
 
 

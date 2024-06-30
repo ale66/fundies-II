@@ -386,6 +386,9 @@
       margin-right: 0; 
     }
   </style>
+  <script src="tree-based-sorting_files/libs/quarto-diagram/mermaid.min.js"></script>
+  <script src="tree-based-sorting_files/libs/quarto-diagram/mermaid-init.js"></script>
+  <link href="tree-based-sorting_files/libs/quarto-diagram/mermaid.css" rel="stylesheet">
 </head>
 <body class="quarto-light">
   <div class="reveal">
@@ -545,19 +548,193 @@ AP
 <li>childless elements are called leaves</li>
 <li>the <em>height</em> of the tree is defined as the <em>longest</em> root-leaf connection.</li>
 </ul>
-<p>Assumption: let k=2.</p>
-<p>We examine binary trees. Children elements will be <em>left</em> and <em>right,</em> resp.</p>
 </section>
-<section id="sorted-trees" class="slide level2">
-<h2>Sorted trees</h2>
-<p>Each left successor is less than or equal than the parent, each right successor is greater than it.</p>
+<section id="a-binary-tree" class="slide level2">
+<h2>A Binary tree</h2>
+<p>Assumption: let k=2.</p>
+<p>Children elements will be <em>left</em> and <em>right,</em> resp.</p>
+<div class="cell" data-reveal="true" data-layout-align="default">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource default number-lines code-with-copy"><code class="sourceCode default"><span id="cb7-1"><a href=""></a>stateDiagram-v2</span>
+<span id="cb7-2"><a href=""></a>    [*] --&gt; 18</span>
+<span id="cb7-3"><a href=""></a></span>
+<span id="cb7-4"><a href=""></a>    18 --&gt; 2</span>
+<span id="cb7-5"><a href=""></a>    18 --&gt; 6</span>
+<span id="cb7-6"><a href=""></a></span>
+<span id="cb7-7"><a href=""></a>    2 --&gt; 0</span>
+<span id="cb7-8"><a href=""></a>    2 --&gt; 11'</span>
+<span id="cb7-9"><a href=""></a></span>
+<span id="cb7-10"><a href=""></a>    6 --&gt; 11''</span>
+<span id="cb7-11"><a href=""></a>    6 --&gt; 36</span>
+<span id="cb7-12"><a href=""></a></span>
+<span id="cb7-13"><a href=""></a>    0 --&gt; 5</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<pre class="mermaid mermaid-js">stateDiagram-v2
+    [*] --&gt; 18
+
+    18 --&gt; 2
+    18 --&gt; 6
+
+    2 --&gt; 0
+    2 --&gt; 11'
+
+    6 --&gt; 11''
+    6 --&gt; 36
+
+    0 --&gt; 5
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+<section id="a-binary-search-tree-bst" class="slide level2">
+<h2>A Binary Search Tree (BST)</h2>
+<ul>
+<li>left children are always less than or equal than their parent</li>
+</ul>
+<div>
+<ul>
+<li class="fragment">right children are always greater than their parent.</li>
+</ul>
+</div>
+<div class="cell" data-reveal="true" data-layout-align="default">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource default number-lines code-with-copy"><code class="sourceCode default"><span id="cb8-1"><a href=""></a>stateDiagram-v2</span>
+<span id="cb8-2"><a href=""></a>    [*] --&gt; 11'</span>
+<span id="cb8-3"><a href=""></a></span>
+<span id="cb8-4"><a href=""></a>    11' --&gt; 5</span>
+<span id="cb8-5"><a href=""></a>    11' --&gt; 18</span>
+<span id="cb8-6"><a href=""></a></span>
+<span id="cb8-7"><a href=""></a>    5 --&gt; 2</span>
+<span id="cb8-8"><a href=""></a>    5 --&gt; 6</span>
+<span id="cb8-9"><a href=""></a></span>
+<span id="cb8-10"><a href=""></a>    18 --&gt; 11</span>
+<span id="cb8-11"><a href=""></a>    18 --&gt; 36</span>
+<span id="cb8-12"><a href=""></a></span>
+<span id="cb8-13"><a href=""></a>    2 --&gt; 0</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<pre class="mermaid mermaid-js">stateDiagram-v2
+    [*] --&gt; 11'
+
+    11' --&gt; 5
+    11' --&gt; 18
+
+    5 --&gt; 2
+    5 --&gt; 6
+
+    18 --&gt; 11
+    18 --&gt; 36
+
+    2 --&gt; 0
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>(here <em>11</em> stands for <em>11’’</em>)</p>
+</section>
+<section id="bst-position-is-related-to-ranking" class="slide level2">
+<h2>BST position is related to ranking</h2>
+<div class="cell" data-reveal="true" data-layout-align="default">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource default number-lines code-with-copy"><code class="sourceCode default"><span id="cb9-1"><a href=""></a>stateDiagram-v2</span>
+<span id="cb9-2"><a href=""></a>    [*] --&gt; 11'</span>
+<span id="cb9-3"><a href=""></a></span>
+<span id="cb9-4"><a href=""></a>    11' --&gt; 5</span>
+<span id="cb9-5"><a href=""></a>    11' --&gt; 18</span>
+<span id="cb9-6"><a href=""></a></span>
+<span id="cb9-7"><a href=""></a>    5 --&gt; 2</span>
+<span id="cb9-8"><a href=""></a>    5 --&gt; 6</span>
+<span id="cb9-9"><a href=""></a></span>
+<span id="cb9-10"><a href=""></a>    18 --&gt; 11</span>
+<span id="cb9-11"><a href=""></a>    18 --&gt; 36</span>
+<span id="cb9-12"><a href=""></a></span>
+<span id="cb9-13"><a href=""></a>    2 --&gt; 0</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<pre class="mermaid mermaid-js">stateDiagram-v2
+    [*] --&gt; 11'
+
+    11' --&gt; 5
+    11' --&gt; 18
+
+    5 --&gt; 2
+    5 --&gt; 6
+
+    18 --&gt; 11
+    18 --&gt; 36
+
+    2 --&gt; 0
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<div>
+<ul>
+<li class="fragment"><p>Q: where are min, max and median elements?</p></li>
+<li class="fragment"><p>Q: Can you think of an algorithm that will print out the values in sorted fashion?</p></li>
+</ul>
+</div>
+</section>
+<section id="tree-as-a-data-structure" class="slide level2">
+<h2>Tree as a data structure</h2>
+<ul>
+<li>in arrays, each element, say <em>a[i]</em> is `next’ to two (at most): <em>a[i-1]</em> and <em>a[i+1]</em></li>
+</ul>
+<div>
+<ul>
+<li class="fragment"><p>in binary tree, <em>t[i]</em> is `next’ to its parent, <em>t[parent(i)]</em> and up to two children: <em>myTree[left(i)]</em> and <em>t[right(i)].</em></p></li>
+<li class="fragment"><p>fact: the binary tree organization can be implemented in RAM with no extra space and minimal time overhead to compute the <em>parent(), left()</em> and <em>right()</em> functions.</p></li>
+<li class="fragment"><p>elegant functions will implement ordered trees and make sort and in general accessing the sequence quick.</p></li>
+</ul>
+</div>
+</section>
+<section id="bst-serialization" class="slide level2">
+<h2>BST serialization</h2>
+<p>The BST is a <em>view</em> over an array:</p>
+<div class="cell" data-reveal="true" data-layout-align="default">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource default number-lines code-with-copy"><code class="sourceCode default"><span id="cb10-1"><a href=""></a>stateDiagram-v2</span>
+<span id="cb10-2"><a href=""></a>    [*] --&gt; 18</span>
+<span id="cb10-3"><a href=""></a></span>
+<span id="cb10-4"><a href=""></a>    18 --&gt; 2</span>
+<span id="cb10-5"><a href=""></a>    18 --&gt; 6</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<pre class="mermaid mermaid-js">stateDiagram-v2
+    [*] --&gt; 18
+
+    18 --&gt; 2
+    18 --&gt; 6
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode numberSource java number-lines code-with-copy"><code class="sourceCode java"><span id="cb11-1"><a href=""></a>a <span class="op">=</span> <span class="op">{</span><span class="dv">18</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">6</span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Assume indexing from 1 Try these functions:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode numberSource java number-lines code-with-copy"><code class="sourceCode java"><span id="cb12-1"><a href=""></a><span class="fu">left</span><span class="op">(</span>i<span class="op">)</span> <span class="op">=</span> <span class="dv">2</span><span class="op">*</span>i</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode numberSource java number-lines code-with-copy"><code class="sourceCode java"><span id="cb13-1"><a href=""></a><span class="fu">right</span><span class="op">(</span>i<span class="op">)</span> <span class="op">=</span> <span class="dv">2</span><span class="op">*</span>i <span class="op">+</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode numberSource java number-lines code-with-copy"><code class="sourceCode java"><span id="cb14-1"><a href=""></a><span class="fu">left</span><span class="op">(</span>i<span class="op">)</span> <span class="op">=</span> <span class="dt">int</span><span class="op">(</span>i<span class="op">/</span><span class="dv">2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="build-your-class" class="slide level2">
 <h2>Build your class</h2>
-<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource java number-lines code-with-copy"><code class="sourceCode java"><span id="cb7-1"><a href=""></a><span class="kw">public</span> <span class="kw">class</span> MyArray <span class="op">{</span></span>
-<span id="cb7-2"><a href=""></a>    <span class="kw">private</span> <span class="dt">int</span><span class="op">[]</span> arrayData<span class="op">;</span> <span class="co">// Internal array to store elements</span></span>
-<span id="cb7-3"><a href=""></a>    <span class="kw">private</span> <span class="dt">int</span> size<span class="op">;</span> <span class="co">// Number of actual elements in the array</span></span>
-<span id="cb7-4"><a href=""></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode numberSource java number-lines code-with-copy"><code class="sourceCode java"><span id="cb15-1"><a href=""></a><span class="kw">public</span> <span class="kw">class</span> MyArray <span class="op">{</span></span>
+<span id="cb15-2"><a href=""></a>    <span class="kw">private</span> <span class="dt">int</span><span class="op">[]</span> arrayData<span class="op">;</span> <span class="co">// Internal array to store elements</span></span>
+<span id="cb15-3"><a href=""></a>    <span class="kw">private</span> <span class="dt">int</span> size<span class="op">;</span> <span class="co">// Number of actual elements in the array</span></span>
+<span id="cb15-4"><a href=""></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="quarto-auto-generated-content">
 <div class="footer footer-default">
 
