@@ -25,6 +25,9 @@ format:
 
 ![](./imgs/meme.jpg)
 
+- Mock lecture on Tree-based sorting
+
+- I will explain my pegagogy as I go through
 
 ## Concept check: Sorting
 
@@ -180,7 +183,7 @@ $b\ =\ [ 0, 2, 6, 5, 11, 11, 18, 36 ]$
 
 - we need algorithms that looks at data and carry out only as many comparisons/swaps as needed.
 
-## The tree metaphor
+## The tree abstraction
 
 Idea: a data structure that stores values in a way that *represents* what is known about its *rank* in the final version of the sequence.
 
@@ -196,9 +199,7 @@ The new structure has visual properties that simplify algorithm design and analy
 - childless elements are called leaves
 - the *height* of the tree is defined as the *longest* root-to-leaf path.
 
-## A Binary tree
-
-Assumption: let k=2. 
+## A Binary tree: k=2. 
 
 Children elements will be *left* and *right,* resp.
 
@@ -219,10 +220,15 @@ stateDiagram-v2
     0 --> 5
 ```
 
+- Complete left-to-right: the binary tree has no 'holes' 
+- never a right leaf node without its left sibling.
+
+
+
 ## A Binary Search Tree (BST)
 
-- left children are always less than or equal than their parent
-  
+- recursively, left children never exceed ($\leq$) their anchestors
+- right children always do.
 
 ```{mermaid}
 %%| echo: false
@@ -240,12 +246,6 @@ stateDiagram-v2
 
     2 --> 0
 ```
-
-::: {.incremental}
-- right children are always greater than their parent.
-
-- all sub-trees (a child and its descendants) also are BSTs
-:::
 
 -----
 
@@ -281,7 +281,7 @@ stateDiagram-v2
 
 
 ::: {.incremental}
-- in binary tree, *tree[i]* is `next' to its parent, *tree[parent(i)]* and up to two children: *tree[left(i)]* and *tree[right(i)].*
+- in binary tree, *tree[i]* is `next' to its parent, *tree[parent(i)]* and one or two children: *tree[left(i)]* and *tree[right(i)].*
   
 - fact: the binary tree organization can be implemented in RAM with no extra space and minimal time overhead to compute the *parent(), left()* and *right()* functions.
   
@@ -321,7 +321,7 @@ int parent(int i) {return (int) i/2;}
 
 - Thanks to binary representation, division/multiplication by 2 can be done in one machine instruction
 
-- visiting a BST is very efficient!
+- visiting a complete BST is very efficient!
 
 ```java
 // implements left()
@@ -337,6 +337,8 @@ byte originalByte = 0b0011_0100; // 52 in binary
 int shiftedByte = originalByte >> 1; // Shift right by 1 positions
 ```
 
+- we now abandon the idealised vision of complete BST to look at BST whose shape could be *irregular*
+
 ## Create a BST from output, I
 
 ```java
@@ -347,6 +349,7 @@ class Node {
 
     public Node(int item) {
         value = item;
+        // at 'birth,' nodes are childless
         left = right = null;
     }
 }
@@ -391,6 +394,19 @@ class BinarySearchTree {
     }
 ```
 
+## Live coding
+
+```java
+    // Method to conduct inorder traversal of the tree
+    void inorder() {
+        inorderRec(root);
+    }
+
+    // Visit the BT and print out the values
+    // in ascending order
+
+```
+
 -----
 
 ```java
@@ -418,15 +434,15 @@ class BinarySearchTree {
         BinarySearchTree bst = new BinarySearchTree();
 
         // Insert values into BST
+        bst.insert(11);
         bst.insert(5);
-        bst.insert(0);
-        bst.insert(2);
-        bst.insert(11);
         bst.insert(18);
+        bst.insert(2);
+        bst.insert(6);     
         bst.insert(11);
-        bst.insert(6);
         bst.insert(36);
-        
+        bst.insert(0);     
+
         // Print the inorder traversal of the BST
         System.out.println("Inorder traversal of the BST:");
         bst.inorder();
@@ -434,23 +450,31 @@ class BinarySearchTree {
 }
 ```
 
+## Good properties
 
+- in-order transversal of the BST corresponds to sorting.
+  
+- if the BST is *balanced:* no. of left successors and no. of right successor is roughly equal: 
+  
+- height, i.e., the longest root-to-leaf possible visit, is going to be about $\log_2 n$
+  
+- finding max and min will require only  $\log_2 n$ accesses.
+  
+- in general, we can find the element of a given rank with only $\log_2 n$ accesses.
 
+## Bad properties
 
+- if the BST is *unbalanced,* it could end up, e.g., with all left successors and no right successor
+  
+- finding max or max would then take *n* accesses: no better than with an unsorted array.
 
-
-
-
-
-
-
-
-## Build your class
-
-```java
-public class MyArray {
-    private int[] arrayData; // Internal array to store elements
-    private int size; // Number of actual elements in the array
-}
+```{mermaid}
+%%| echo: false
+stateDiagram-v2
+    a --> 0 
+    0 --> 2
+    2 --> 5
 ```
+
+
 
