@@ -47,7 +47,7 @@ Q: sorting might in fact destroy some information. What might it be?
 
 - min, max and median are available in constant time: $a[0]$, $a[n-1]$ and $a[\frac{n}{2}]$, respectively.
   
-- membership can be checked with $\log_2 n$ comparisons at most
+- membership can be checked with about $\log_2 n$ comparisons
   
 - *stability:* multiple copies of the same number should keep their original ordering
 
@@ -181,7 +181,7 @@ $b\ =\ [ 0, 2, 6, 5, 11, 11, 18, 36 ]$
 
 - our BubbleSort algorithm won't scale up to web data, log analysis, machine learning etc.
 
-- we need algorithms that looks at data and carry out only as many comparisons/swaps as needed.
+- we seek algorithms that *look at data* and carry out only as many comparisons/swaps as needed.
 
 ## The tree abstraction
 
@@ -189,14 +189,41 @@ Idea: a data structure that stores values in a way that *represents* what is kno
 
 It will reduce unnecessary comparisons.
 
-The new structure has visual properties that simplify algorithm design and analysis: it's everywhere in computer science.
+The new structure has visual properties that simplify algorithm design and analysis: it's everywhere in CS!
 
 ## A tree
 
+```{mermaid}
+%%| echo: false
+stateDiagram-v2
+    [*] --> 18
+
+    18 --> 2
+    18 --> 6
+```
+
+
 - a special *root* element which is directly accessible
+
 - each element has access to 0..k elements, called *children*
+
 - siblings are not connected to each other directly
+
+## A tree, cont'd
+
+```{mermaid}
+%%| echo: false
+stateDiagram-v2
+    [*] --> 18
+
+    18 --> 2
+    18 --> 6
+
+    2 --> 0
+```
+
 - childless elements are called leaves
+
 - the *height* of the tree is defined as the *longest* root-to-leaf path.
 
 ## A Binary tree: k=2. 
@@ -220,15 +247,17 @@ stateDiagram-v2
     0 --> 5
 ```
 
-- Complete left-to-right: the binary tree has no 'holes' 
+- Complete left-to-right: a BT with no 'holes' 
+  
 - never a right leaf node without its left sibling.
-
-
 
 ## A Binary Search Tree (BST)
 
-- recursively, left children never exceed ($\leq$) their anchestors
-- right children always do.
+At each level
+
+- the left child never exceed ($\leq$) its parent 
+  
+- the right child always does
 
 ```{mermaid}
 %%| echo: false
@@ -272,23 +301,26 @@ stateDiagram-v2
 ::: {.incremental}
 - Q: where are min, max and median elements?
 
-- Q: Can you think of an algorithm that will print out the values in sorted fashion?
+- Q: Can you think of an algo. that prints out the values in sorted fashion?
 :::
 
-## Tree as a data structure
+## Rethinking arrays
 
-- in arrays, each element, say *a[i]* is `next' to two (at most): *a[i-1]* and *a[i+1]* 
+- each element, say *a[i]* is `next' to two (at most): *a[i-1]* and *a[i+1]* 
 
+- real physical memory or the simplest of abstractions? 
+
+## Bin. trees as a data structure
+
+each *tree[i]* element is `next' to its parent, *tree[parent(i)]* and one or two children: *tree[left(i)]* and *tree[right(i)].*
 
 ::: {.incremental}
-- in binary tree, *tree[i]* is `next' to its parent, *tree[parent(i)]* and one or two children: *tree[left(i)]* and *tree[right(i)].*
+- Fact: complete BTs can be implemented in RAM with *no extra space* and minimal time overhead to compute the *parent(), left()* and *right()* functions.
   
-- fact: the binary tree organization can be implemented in RAM with no extra space and minimal time overhead to compute the *parent(), left()* and *right()* functions.
-  
-- elegant functions will implement ordered trees and make sort and in general accessing the sequence quick.
+- elegant functions will implement ordered BTs/BSTs: sorting accelerates!
 :::
 
-## BST serialization
+## BST as de-serialization
 
 The BST is a *view* over an array:
 
@@ -305,8 +337,6 @@ stateDiagram-v2
     18 --> 6
 ```
 
-
-
 Assume indexing from 1 and try these functions:
 
 ```java
@@ -317,11 +347,31 @@ int left(int i) {return 2*i+1;}
 int parent(int i) {return (int) i/2;}
 ```
 
+## Concept checking: tree navigation
+
+left(1) $\rightarrow$ 2
+
+right(1) $\rightarrow$ 3
+
+left(2) $\rightarrow$ 4
+
+right(2) $\rightarrow$ 5
+
+left(3) $\rightarrow$ 6
+
+::: {.incremental}
+- left(52) $\rightarrow$ ?
+
+- right(52) $\rightarrow$ ?
+
+- parent(52) $\rightarrow$ ?
+:::
+
+
 ## Efficency
 
 - Thanks to binary representation, division/multiplication by 2 can be done in one machine instruction
 
-- visiting a complete BST is very efficient!
 
 ```java
 // implements left()
@@ -330,6 +380,8 @@ byte originalByte = 0b0011_0100; // 52 in binary
 int shiftedByte = originalByte << 1; // Shift left by 1 positions
 ```
 
+- visiting a complete BST is very efficient!
+  
 ```java
 // implents parent()
 byte originalByte = 0b0011_0100; // 52 in binary
@@ -337,7 +389,9 @@ byte originalByte = 0b0011_0100; // 52 in binary
 int shiftedByte = originalByte >> 1; // Shift right by 1 positions
 ```
 
-- we now abandon the idealised vision of complete BST to look at BST whose shape could be *irregular*
+---
+
+We now leave the idealised vision of complete BST to look at *general* BST whose shape could be *irregular*
 
 ## Create a BST from output, I
 
