@@ -306,16 +306,16 @@ stateDiagram-v2
 
 ## Rethinking arrays
 
-- each element, say *a[i]* is `next' to two (at most): *a[i-1]* and *a[i+1]* 
+- each element, say `a[i]` is *next* to two (at most): `a[i-1]` and `a[i+1]` 
 
 - real physical memory or the simplest of abstractions? 
 
 ## Bin. trees as a data structure
 
-each *tree[i]* element is `next' to its parent, *tree[parent(i)]* and one or two children: *tree[left(i)]* and *tree[right(i)].*
+each `tree[i]` element is *next* to its parent, `tree[parent(i)]` and one or two children: `tree[left(i)]` and `tree[right(i)].`
 
 ::: {.incremental}
-- Fact: complete BTs can be implemented in RAM with *no extra space* and minimal time overhead to compute the *parent(), left()* and *right()* functions.
+- Fact: complete BTs can be implemented in RAM with *no extra space* and minimal time overhead to compute the `parent()`, `left()` and `right()` functions.
   
 - elegant functions will implement ordered BTs/BSTs: sorting accelerates!
 :::
@@ -370,8 +370,7 @@ left(3) $\rightarrow$ 6
 
 ## Efficency
 
-- Thanks to binary representation, division/multiplication by 2 can be done in one machine instruction
-
+- Thanks to binary representation, division/multiplication by 2 can be done in one CPU cycle
 
 ```java
 // implements left()
@@ -449,6 +448,10 @@ class BinarySearchTree {
 ```
 
 ## Live coding
+
+Given a reference to the root node, print its content in ascending order.
+
+Exploit the recursive BST property: all sub-trees are BST themselves.
 
 ```java
     // Method to conduct inorder traversal of the tree
@@ -530,5 +533,20 @@ stateDiagram-v2
     2 --> 5
 ```
 
+## Conclusions 
 
+Sorting arrays with BubbleSort: easy to visualise+implement but costly
 
+Many comparisons are repeated: waste of time, costs grow with $n^2$
+
+Arrays: a straightforward abstraction of RAM
+
+::: {.incremental}
+- Tree: a new abstration, relatively easy to code and lightweight
+
+- Binary Search Trees: a tree organisation that makes values easy to sort/search
+
+- However BST may degenerate into (costly) *straight lists* 
+
+- We need techniques to turn arbitrary sequences into balanced BST
+:::

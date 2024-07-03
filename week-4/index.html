@@ -8,7 +8,7 @@
 <link href="tree-based-sorting_files/libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="tree-based-sorting_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="tree-based-sorting_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.4.557">
+  <meta name="generator" content="quarto-1.4.555">
 
   <meta name="author" content="AP">
   <title>Tree-based sorting</title>
@@ -42,7 +42,7 @@
     }
     @media print {
     pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
     }
     pre.numberSource code
       { counter-reset: source-line 0; }
@@ -427,7 +427,7 @@ AP
 
 <ul>
 <li><p>min, max and median are available in constant time: <span class="math inline">\(a[0]\)</span>, <span class="math inline">\(a[n-1]\)</span> and <span class="math inline">\(a[\frac{n}{2}]\)</span>, respectively.</p></li>
-<li><p>membership can be checked with <span class="math inline">\(\log_2 n\)</span> comparisons at most</p></li>
+<li><p>membership can be checked with about <span class="math inline">\(\log_2 n\)</span> comparisons</p></li>
 <li><p><em>stability:</em> multiple copies of the same number should keep their original ordering</p></li>
 </ul>
 <p><span class="math inline">\(a\ =\ [ 5, 0, 2, 11^\prime, 18, 11^{\prime\prime}, 6, 36 ]\)</span></p>
@@ -536,23 +536,62 @@ AP
 <li><p>then <code>i=1</code> and the inner cycle on <code>j</code> executes n-2 times, and so on.</p></li>
 <li><p>all in all, the innermost code will execute about <span class="math inline">\(\frac{n(n-1)}{2}\approx n^2\)</span> times</p></li>
 <li><p>our BubbleSort algorithm won’t scale up to web data, log analysis, machine learning etc.</p></li>
-<li><p>we need algorithms that looks at data and carry out only as many comparisons/swaps as needed.</p></li>
+<li><p>we seek algorithms that <em>look at data</em> and carry out only as many comparisons/swaps as needed.</p></li>
 </ul>
 </section>
 <section id="the-tree-abstraction" class="slide level2">
 <h2>The tree abstraction</h2>
 <p>Idea: a data structure that stores values in a way that <em>represents</em> what is known about its <em>rank</em> in the final version of the sequence.</p>
 <p>It will reduce unnecessary comparisons.</p>
-<p>The new structure has visual properties that simplify algorithm design and analysis: it’s everywhere in computer science.</p>
+<p>The new structure has visual properties that simplify algorithm design and analysis: it’s everywhere in CS!</p>
 </section>
 <section id="a-tree" class="slide level2">
 <h2>A tree</h2>
+<div class="cell" data-reveal="true" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<pre class="mermaid mermaid-js">stateDiagram-v2
+    [*] --&gt; 18
+
+    18 --&gt; 2
+    18 --&gt; 6
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
 <ul>
-<li>a special <em>root</em> element which is directly accessible</li>
-<li>each element has access to 0..k elements, called <em>children</em></li>
-<li>siblings are not connected to each other directly</li>
-<li>childless elements are called leaves</li>
-<li>the <em>height</em> of the tree is defined as the <em>longest</em> root-to-leaf path.</li>
+<li><p>a special <em>root</em> element which is directly accessible</p></li>
+<li><p>each element has access to 0..k elements, called <em>children</em></p></li>
+<li><p>siblings are not connected to each other directly</p></li>
+</ul>
+</section>
+<section id="a-tree-contd" class="slide level2">
+<h2>A tree, cont’d</h2>
+<div class="cell" data-reveal="true" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<pre class="mermaid mermaid-js">stateDiagram-v2
+    [*] --&gt; 18
+
+    18 --&gt; 2
+    18 --&gt; 6
+
+    2 --&gt; 0
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<ul>
+<li><p>childless elements are called leaves</p></li>
+<li><p>the <em>height</em> of the tree is defined as the <em>longest</em> root-to-leaf path.</p></li>
 </ul>
 </section>
 <section id="a-binary-tree-k2." class="slide level2">
@@ -583,15 +622,16 @@ AP
 </div>
 </div>
 <ul>
-<li>Complete left-to-right: the binary tree has no ‘holes’</li>
-<li>never a right leaf node without its left sibling.</li>
+<li><p>Complete left-to-right: a BT with no ‘holes’</p></li>
+<li><p>never a right leaf node without its left sibling.</p></li>
 </ul>
 </section>
 <section id="a-binary-search-tree-bst" class="slide level2">
 <h2>A Binary Search Tree (BST)</h2>
+<p>At each level</p>
 <ul>
-<li>recursively, left children never exceed (<span class="math inline">\(\leq\)</span>) their anchestors</li>
-<li>right children always do.</li>
+<li><p>the left child never exceed (<span class="math inline">\(\leq\)</span>) its parent</p></li>
+<li><p>the right child always does</p></li>
 </ul>
 <div class="cell" data-reveal="true" data-layout-align="default">
 <div class="cell-output-display">
@@ -647,25 +687,29 @@ AP
 <div>
 <ul>
 <li class="fragment"><p>Q: where are min, max and median elements?</p></li>
-<li class="fragment"><p>Q: Can you think of an algorithm that will print out the values in sorted fashion?</p></li>
+<li class="fragment"><p>Q: Can you think of an algo. that prints out the values in sorted fashion?</p></li>
 </ul>
 </div>
 </section>
-<section id="tree-as-a-data-structure" class="slide level2">
-<h2>Tree as a data structure</h2>
+<section id="rethinking-arrays" class="slide level2">
+<h2>Rethinking arrays</h2>
 <ul>
-<li>in arrays, each element, say <em>a[i]</em> is `next’ to two (at most): <em>a[i-1]</em> and <em>a[i+1]</em></li>
+<li><p>each element, say <code>a[i]</code> is <em>next</em> to two (at most): <code>a[i-1]</code> and <code>a[i+1]</code></p></li>
+<li><p>real physical memory or the simplest of abstractions?</p></li>
 </ul>
+</section>
+<section id="bin.-trees-as-a-data-structure" class="slide level2">
+<h2>Bin. trees as a data structure</h2>
+<p>each <code>tree[i]</code> element is <em>next</em> to its parent, <code>tree[parent(i)]</code> and one or two children: <code>tree[left(i)]</code> and <code>tree[right(i)].</code></p>
 <div>
 <ul>
-<li class="fragment"><p>in binary tree, <em>tree[i]</em> is `next’ to its parent, <em>tree[parent(i)]</em> and one or two children: <em>tree[left(i)]</em> and <em>tree[right(i)].</em></p></li>
-<li class="fragment"><p>fact: the binary tree organization can be implemented in RAM with no extra space and minimal time overhead to compute the <em>parent(), left()</em> and <em>right()</em> functions.</p></li>
-<li class="fragment"><p>elegant functions will implement ordered trees and make sort and in general accessing the sequence quick.</p></li>
+<li class="fragment"><p>Fact: complete BTs can be implemented in RAM with <em>no extra space</em> and minimal time overhead to compute the <code>parent()</code>, <code>left()</code> and <code>right()</code> functions.</p></li>
+<li class="fragment"><p>elegant functions will implement ordered BTs/BSTs: sorting accelerates!</p></li>
 </ul>
 </div>
 </section>
-<section id="bst-serialization" class="slide level2">
-<h2>BST serialization</h2>
+<section id="bst-as-de-serialization" class="slide level2">
+<h2>BST as de-serialization</h2>
 <p>The BST is a <em>view</em> over an array:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode numberSource java number-lines code-with-copy"><code class="sourceCode java"><span id="cb6-1"><a href=""></a><span class="dt">int</span><span class="op">[]</span> a <span class="op">=</span> <span class="op">{</span><span class="dv">18</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">6</span><span class="op">};</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell" data-reveal="true" data-layout-align="default">
@@ -691,23 +735,41 @@ AP
 <span id="cb7-4"><a href=""></a></span>
 <span id="cb7-5"><a href=""></a><span class="dt">int</span> <span class="fu">parent</span><span class="op">(</span><span class="dt">int</span> i<span class="op">)</span> <span class="op">{</span><span class="cf">return</span> <span class="op">(</span><span class="dt">int</span><span class="op">)</span> i<span class="op">/</span><span class="dv">2</span><span class="op">;}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
+<section id="concept-checking-tree-navigation" class="slide level2">
+<h2>Concept checking: tree navigation</h2>
+<p>left(1) <span class="math inline">\(\rightarrow\)</span> 2</p>
+<p>right(1) <span class="math inline">\(\rightarrow\)</span> 3</p>
+<p>left(2) <span class="math inline">\(\rightarrow\)</span> 4</p>
+<p>right(2) <span class="math inline">\(\rightarrow\)</span> 5</p>
+<p>left(3) <span class="math inline">\(\rightarrow\)</span> 6</p>
+<div>
+<ul>
+<li class="fragment"><p>left(52) <span class="math inline">\(\rightarrow\)</span> ?</p></li>
+<li class="fragment"><p>right(52) <span class="math inline">\(\rightarrow\)</span> ?</p></li>
+<li class="fragment"><p>parent(52) <span class="math inline">\(\rightarrow\)</span> ?</p></li>
+</ul>
+</div>
+</section>
 <section id="efficency" class="slide level2">
 <h2>Efficency</h2>
 <ul>
-<li><p>Thanks to binary representation, division/multiplication by 2 can be done in one machine instruction</p></li>
-<li><p>visiting a complete BST is very efficient!</p></li>
+<li>Thanks to binary representation, division/multiplication by 2 can be done in one CPU cycle</li>
 </ul>
 <div class="sourceCode" id="cb8"><pre class="sourceCode numberSource java number-lines code-with-copy"><code class="sourceCode java"><span id="cb8-1"><a href=""></a><span class="co">// implements left()</span></span>
 <span id="cb8-2"><a href=""></a><span class="dt">byte</span> originalByte <span class="op">=</span> <span class="bn">0b0011_0100</span><span class="op">;</span> <span class="co">// 52 in binary</span></span>
 <span id="cb8-3"><a href=""></a></span>
 <span id="cb8-4"><a href=""></a><span class="dt">int</span> shiftedByte <span class="op">=</span> originalByte <span class="op">&lt;&lt;</span> <span class="dv">1</span><span class="op">;</span> <span class="co">// Shift left by 1 positions</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>visiting a complete BST is very efficient!</li>
+</ul>
 <div class="sourceCode" id="cb9"><pre class="sourceCode numberSource java number-lines code-with-copy"><code class="sourceCode java"><span id="cb9-1"><a href=""></a><span class="co">// implents parent()</span></span>
 <span id="cb9-2"><a href=""></a><span class="dt">byte</span> originalByte <span class="op">=</span> <span class="bn">0b0011_0100</span><span class="op">;</span> <span class="co">// 52 in binary</span></span>
 <span id="cb9-3"><a href=""></a></span>
 <span id="cb9-4"><a href=""></a><span class="dt">int</span> shiftedByte <span class="op">=</span> originalByte <span class="op">&gt;&gt;</span> <span class="dv">1</span><span class="op">;</span> <span class="co">// Shift right by 1 positions</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<ul>
-<li>we now abandon the idealised vision of complete BST to look at BST whose shape could be <em>irregular</em></li>
-</ul>
+</section>
+<section class="slide level2">
+
+<p>We now leave the idealised vision of complete BST to look at <em>general</em> BST whose shape could be <em>irregular</em></p>
 </section>
 <section id="create-a-bst-from-output-i" class="slide level2">
 <h2>Create a BST from output, I</h2>
@@ -759,6 +821,8 @@ AP
 </section>
 <section id="live-coding" class="slide level2">
 <h2>Live coding</h2>
+<p>Given a reference to the root node, print its content in ascending order.</p>
+<p>Exploit the recursive BST property: all sub-trees are BST themselves.</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode numberSource java number-lines code-with-copy"><code class="sourceCode java"><span id="cb13-1"><a href=""></a>    <span class="co">// Method to conduct inorder traversal of the tree</span></span>
 <span id="cb13-2"><a href=""></a>    <span class="dt">void</span> <span class="fu">inorder</span><span class="op">()</span> <span class="op">{</span></span>
 <span id="cb13-3"><a href=""></a>        <span class="fu">inorderRec</span><span class="op">(</span>root<span class="op">);</span></span>
@@ -836,6 +900,20 @@ AP
 <p></p></figure><p></p>
 </div>
 </div>
+</div>
+</section>
+<section id="conclusions" class="slide level2">
+<h2>Conclusions</h2>
+<p>Sorting arrays with BubbleSort: easy to visualise+implement but costly</p>
+<p>Many comparisons are repeated: waste of time, costs grow with <span class="math inline">\(n^2\)</span></p>
+<p>Arrays: a straightforward abstraction of RAM</p>
+<div>
+<ul>
+<li class="fragment"><p>Tree: a new abstration, relatively easy to code and lightweight</p></li>
+<li class="fragment"><p>Binary Search Trees: a tree organisation that makes values easy to sort/search</p></li>
+<li class="fragment"><p>However BST may degenerate into (costly) <em>straight lists</em></p></li>
+<li class="fragment"><p>We need techniques to turn arbitrary sequences into balanced BST</p></li>
+</ul>
 </div>
 <div class="quarto-auto-generated-content">
 <div class="footer footer-default">
