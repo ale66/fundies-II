@@ -29,6 +29,18 @@ format:
 
 - I will explain my pegagogy as I go through
 
+## Objectives
+
+We continue work on the sorting problem
+
+We start learning a new, powerful data structure: trees
+
+Trees in CS were developed rather early to manage *scarce* dynamic memory
+
+The grow *downward*
+
+# Concept Checking
+
 ## Concept check: Sorting
 
 input: a sequence of integers
@@ -87,6 +99,8 @@ public class MyArray {
 ```
 
 See the [class file](./src/MyArray.java) from last week
+
+# Sorting
 
 ## Sorting by pairwise comparison
 
@@ -183,7 +197,9 @@ $b\ =\ [ 0, 2, 6, 5, 11, 11, 18, 36 ]$
 
 - we seek algorithms that *look at data* and carry out only as many comparisons/swaps as needed.
 
-## The tree abstraction
+# The tree abstraction
+
+## Idea
 
 Idea: a data structure that stores values in a way that *represents* what is known about its *rank* in the final version of the sequence.
 
@@ -320,9 +336,9 @@ each `tree[i]` element is *next* to its parent, `tree[parent(i)]` and one or two
 - elegant functions will implement ordered BTs/BSTs: sorting accelerates!
 :::
 
-## BST as de-serialization
+## BST as abstraction over RAM
 
-The BST is a *view* over an array:
+The BST is a *view* of, essentially, an array:
 
 ```java
 int[] a = {18, 2, 6};
@@ -347,6 +363,8 @@ int left(int i) {return 2*i+1;}
 int parent(int i) {return (int) i/2;}
 ```
 
+# In depth: tree navigation
+
 ## Concept checking: tree navigation
 
 left(1) $\rightarrow$ 2
@@ -368,7 +386,7 @@ left(3) $\rightarrow$ 6
 :::
 
 
-## Efficency
+## efficiency
 
 - Thanks to binary representation, division/multiplication by 2 can be done in one CPU cycle
 
@@ -388,11 +406,13 @@ byte originalByte = 0b0011_0100; // 52 in binary
 int shiftedByte = originalByte >> 1; // Shift right by 1 positions
 ```
 
----
+::: {.incremental}
+We now leave the idealised vision of complete BST to look at *general* BST whose shape could be *irregular.*
+:::
 
-We now leave the idealised vision of complete BST to look at *general* BST whose shape could be *irregular*
+# In Depth: The BST class
 
-## Create a BST from output, I
+## BST as a class, I
 
 ```java
 // Define a class for the nodes of the tree
@@ -408,6 +428,8 @@ class Node {
 }
 ```
 
+## BST as a class, II
+
 ```java
 // Define the Binary Search Tree (BST) class
 class BinarySearchTree {
@@ -420,7 +442,7 @@ class BinarySearchTree {
     }
 ```
 
-## Create a BST from output, 2
+## BST as a class, III
 
 ```java
  // Method to insert a new key
@@ -447,7 +469,33 @@ class BinarySearchTree {
     }
 ```
 
-## Live coding
+## My first BST
+
+```java
+    // Main method to test the BinarySearchTree class
+    public static void main(String[] args) {
+        BinarySearchTree bst = new BinarySearchTree();
+
+        // Insert values into BST
+        bst.insert(11);
+        bst.insert(5);
+        bst.insert(18);
+        bst.insert(2);
+        bst.insert(6);     
+        bst.insert(11);
+        bst.insert(36);
+        bst.insert(0);     
+
+        // Print the inorder traversal of the BST
+        System.out.println("Inorder traversal of the BST:");
+        bst.inorder();
+    }
+}
+```
+
+# Live Coding
+
+## Tree transversal
 
 Given a reference to the root node, print its content in ascending order.
 
@@ -482,30 +530,7 @@ Exploit the recursive BST property: all sub-trees are BST themselves.
     }
 ```
 
-----
-
-```java
-
-    // Main method to test the BinarySearchTree class
-    public static void main(String[] args) {
-        BinarySearchTree bst = new BinarySearchTree();
-
-        // Insert values into BST
-        bst.insert(11);
-        bst.insert(5);
-        bst.insert(18);
-        bst.insert(2);
-        bst.insert(6);     
-        bst.insert(11);
-        bst.insert(36);
-        bst.insert(0);     
-
-        // Print the inorder traversal of the BST
-        System.out.println("Inorder traversal of the BST:");
-        bst.inorder();
-    }
-}
-```
+# Analysis
 
 ## Good properties
 
@@ -544,7 +569,7 @@ Arrays: a straightforward abstraction of RAM
 ::: {.incremental}
 - Tree: a new abstration, relatively easy to code and lightweight
 
-- Binary Search Trees: a tree organisation that makes values easy to sort/search
+- Binary Search Trees: a type of tree that makes values easy to sort/search
 
 - However BST may degenerate into (costly) *straight lists* 
 

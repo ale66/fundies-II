@@ -414,6 +414,18 @@ AP
 <li><p>I will explain my pegagogy as I go through</p></li>
 </ul>
 </section>
+<section id="objectives" class="slide level2">
+<h2>Objectives</h2>
+<p>We continue work on the sorting problem</p>
+<p>We start learning a new, powerful data structure: trees</p>
+<p>Trees in CS were developed rather early to manage <em>scarce</em> dynamic memory</p>
+<p>The grow <em>downward</em></p>
+</section>
+<section>
+<section id="concept-checking" class="title-slide slide level1 center">
+<h1>Concept Checking</h1>
+
+</section>
 <section id="concept-check-sorting" class="slide level2">
 <h2>Concept check: Sorting</h2>
 <p>input: a sequence of integers</p>
@@ -457,6 +469,11 @@ AP
 <span id="cb2-9"><a href=""></a>        size <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
 <span id="cb2-10"><a href=""></a>    <span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>See the <a href="./src/MyArray.java">class file</a> from last week</p>
+</section></section>
+<section>
+<section id="sorting" class="title-slide slide level1 center">
+<h1>Sorting</h1>
+
 </section>
 <section id="sorting-by-pairwise-comparison" class="slide level2">
 <h2>Sorting by pairwise comparison</h2>
@@ -538,9 +555,14 @@ AP
 <li><p>our BubbleSort algorithm won’t scale up to web data, log analysis, machine learning etc.</p></li>
 <li><p>we seek algorithms that <em>look at data</em> and carry out only as many comparisons/swaps as needed.</p></li>
 </ul>
+</section></section>
+<section>
+<section id="the-tree-abstraction" class="title-slide slide level1 center">
+<h1>The tree abstraction</h1>
+
 </section>
-<section id="the-tree-abstraction" class="slide level2">
-<h2>The tree abstraction</h2>
+<section id="idea" class="slide level2">
+<h2>Idea</h2>
 <p>Idea: a data structure that stores values in a way that <em>represents</em> what is known about its <em>rank</em> in the final version of the sequence.</p>
 <p>It will reduce unnecessary comparisons.</p>
 <p>The new structure has visual properties that simplify algorithm design and analysis: it’s everywhere in CS!</p>
@@ -708,9 +730,9 @@ AP
 </ul>
 </div>
 </section>
-<section id="bst-as-de-serialization" class="slide level2">
-<h2>BST as de-serialization</h2>
-<p>The BST is a <em>view</em> over an array:</p>
+<section id="bst-as-abstraction-over-ram" class="slide level2">
+<h2>BST as abstraction over RAM</h2>
+<p>The BST is a <em>view</em> of, essentially, an array:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode numberSource java number-lines code-with-copy"><code class="sourceCode java"><span id="cb6-1"><a href=""></a><span class="dt">int</span><span class="op">[]</span> a <span class="op">=</span> <span class="op">{</span><span class="dv">18</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">6</span><span class="op">};</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell" data-reveal="true" data-layout-align="default">
 <div class="cell-output-display">
@@ -734,6 +756,11 @@ AP
 <span id="cb7-3"><a href=""></a><span class="dt">int</span> <span class="fu">left</span><span class="op">(</span><span class="dt">int</span> i<span class="op">)</span> <span class="op">{</span><span class="cf">return</span> <span class="dv">2</span><span class="op">*</span>i<span class="op">+</span><span class="dv">1</span><span class="op">;}</span></span>
 <span id="cb7-4"><a href=""></a></span>
 <span id="cb7-5"><a href=""></a><span class="dt">int</span> <span class="fu">parent</span><span class="op">(</span><span class="dt">int</span> i<span class="op">)</span> <span class="op">{</span><span class="cf">return</span> <span class="op">(</span><span class="dt">int</span><span class="op">)</span> i<span class="op">/</span><span class="dv">2</span><span class="op">;}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section></section>
+<section>
+<section id="in-depth-tree-navigation" class="title-slide slide level1 center">
+<h1>In depth: tree navigation</h1>
+
 </section>
 <section id="concept-checking-tree-navigation" class="slide level2">
 <h2>Concept checking: tree navigation</h2>
@@ -750,8 +777,8 @@ AP
 </ul>
 </div>
 </section>
-<section id="efficency" class="slide level2">
-<h2>Efficency</h2>
+<section id="efficiency" class="slide level2">
+<h2>efficiency</h2>
 <ul>
 <li>Thanks to binary representation, division/multiplication by 2 can be done in one CPU cycle</li>
 </ul>
@@ -766,13 +793,17 @@ AP
 <span id="cb9-2"><a href=""></a><span class="dt">byte</span> originalByte <span class="op">=</span> <span class="bn">0b0011_0100</span><span class="op">;</span> <span class="co">// 52 in binary</span></span>
 <span id="cb9-3"><a href=""></a></span>
 <span id="cb9-4"><a href=""></a><span class="dt">int</span> shiftedByte <span class="op">=</span> originalByte <span class="op">&gt;&gt;</span> <span class="dv">1</span><span class="op">;</span> <span class="co">// Shift right by 1 positions</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section class="slide level2">
+<div>
+<p>We now leave the idealised vision of complete BST to look at <em>general</em> BST whose shape could be <em>irregular.</em></p>
+</div>
+</section></section>
+<section>
+<section id="in-depth-the-bst-class" class="title-slide slide level1 center">
+<h1>In Depth: The BST class</h1>
 
-<p>We now leave the idealised vision of complete BST to look at <em>general</em> BST whose shape could be <em>irregular</em></p>
 </section>
-<section id="create-a-bst-from-output-i" class="slide level2">
-<h2>Create a BST from output, I</h2>
+<section id="bst-as-a-class-i" class="slide level2">
+<h2>BST as a class, I</h2>
 <div class="sourceCode" id="cb10"><pre class="sourceCode numberSource java number-lines code-with-copy"><code class="sourceCode java"><span id="cb10-1"><a href=""></a><span class="co">// Define a class for the nodes of the tree</span></span>
 <span id="cb10-2"><a href=""></a><span class="kw">class</span> <span class="bu">Node</span> <span class="op">{</span></span>
 <span id="cb10-3"><a href=""></a>    <span class="dt">int</span> value<span class="op">;</span></span>
@@ -784,6 +815,9 @@ AP
 <span id="cb10-9"><a href=""></a>        left <span class="op">=</span> right <span class="op">=</span> <span class="kw">null</span><span class="op">;</span></span>
 <span id="cb10-10"><a href=""></a>    <span class="op">}</span></span>
 <span id="cb10-11"><a href=""></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="bst-as-a-class-ii" class="slide level2">
+<h2>BST as a class, II</h2>
 <div class="sourceCode" id="cb11"><pre class="sourceCode numberSource java number-lines code-with-copy"><code class="sourceCode java"><span id="cb11-1"><a href=""></a><span class="co">// Define the Binary Search Tree (BST) class</span></span>
 <span id="cb11-2"><a href=""></a><span class="kw">class</span> BinarySearchTree <span class="op">{</span></span>
 <span id="cb11-3"><a href=""></a>    <span class="co">// Root of BST</span></span>
@@ -794,8 +828,8 @@ AP
 <span id="cb11-8"><a href=""></a>        root <span class="op">=</span> <span class="kw">null</span><span class="op">;</span></span>
 <span id="cb11-9"><a href=""></a>    <span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="create-a-bst-from-output-2" class="slide level2">
-<h2>Create a BST from output, 2</h2>
+<section id="bst-as-a-class-iii" class="slide level2">
+<h2>BST as a class, III</h2>
 <div class="sourceCode" id="cb12"><pre class="sourceCode numberSource java number-lines code-with-copy"><code class="sourceCode java"><span id="cb12-1"><a href=""></a> <span class="co">// Method to insert a new key</span></span>
 <span id="cb12-2"><a href=""></a>    <span class="dt">void</span> <span class="fu">insert</span><span class="op">(</span><span class="dt">int</span> value<span class="op">)</span> <span class="op">{</span></span>
 <span id="cb12-3"><a href=""></a>        root <span class="op">=</span> <span class="fu">insertRec</span><span class="op">(</span>root<span class="op">,</span> value<span class="op">);</span></span>
@@ -819,56 +853,65 @@ AP
 <span id="cb12-21"><a href=""></a>        <span class="cf">return</span> root<span class="op">;</span></span>
 <span id="cb12-22"><a href=""></a>    <span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="live-coding" class="slide level2">
-<h2>Live coding</h2>
+<section id="my-first-bst" class="slide level2">
+<h2>My first BST</h2>
+<div class="sourceCode" id="cb13"><pre class="sourceCode numberSource java number-lines code-with-copy"><code class="sourceCode java"><span id="cb13-1"><a href=""></a>    <span class="co">// Main method to test the BinarySearchTree class</span></span>
+<span id="cb13-2"><a href=""></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb13-3"><a href=""></a>        BinarySearchTree bst <span class="op">=</span> <span class="kw">new</span> <span class="fu">BinarySearchTree</span><span class="op">();</span></span>
+<span id="cb13-4"><a href=""></a></span>
+<span id="cb13-5"><a href=""></a>        <span class="co">// Insert values into BST</span></span>
+<span id="cb13-6"><a href=""></a>        bst<span class="op">.</span><span class="fu">insert</span><span class="op">(</span><span class="dv">11</span><span class="op">);</span></span>
+<span id="cb13-7"><a href=""></a>        bst<span class="op">.</span><span class="fu">insert</span><span class="op">(</span><span class="dv">5</span><span class="op">);</span></span>
+<span id="cb13-8"><a href=""></a>        bst<span class="op">.</span><span class="fu">insert</span><span class="op">(</span><span class="dv">18</span><span class="op">);</span></span>
+<span id="cb13-9"><a href=""></a>        bst<span class="op">.</span><span class="fu">insert</span><span class="op">(</span><span class="dv">2</span><span class="op">);</span></span>
+<span id="cb13-10"><a href=""></a>        bst<span class="op">.</span><span class="fu">insert</span><span class="op">(</span><span class="dv">6</span><span class="op">);</span>     </span>
+<span id="cb13-11"><a href=""></a>        bst<span class="op">.</span><span class="fu">insert</span><span class="op">(</span><span class="dv">11</span><span class="op">);</span></span>
+<span id="cb13-12"><a href=""></a>        bst<span class="op">.</span><span class="fu">insert</span><span class="op">(</span><span class="dv">36</span><span class="op">);</span></span>
+<span id="cb13-13"><a href=""></a>        bst<span class="op">.</span><span class="fu">insert</span><span class="op">(</span><span class="dv">0</span><span class="op">);</span>     </span>
+<span id="cb13-14"><a href=""></a></span>
+<span id="cb13-15"><a href=""></a>        <span class="co">// Print the inorder traversal of the BST</span></span>
+<span id="cb13-16"><a href=""></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"Inorder traversal of the BST:"</span><span class="op">);</span></span>
+<span id="cb13-17"><a href=""></a>        bst<span class="op">.</span><span class="fu">inorder</span><span class="op">();</span></span>
+<span id="cb13-18"><a href=""></a>    <span class="op">}</span></span>
+<span id="cb13-19"><a href=""></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section></section>
+<section>
+<section id="live-coding" class="title-slide slide level1 center">
+<h1>Live Coding</h1>
+
+</section>
+<section id="tree-transversal" class="slide level2">
+<h2>Tree transversal</h2>
 <p>Given a reference to the root node, print its content in ascending order.</p>
 <p>Exploit the recursive BST property: all sub-trees are BST themselves.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode numberSource java number-lines code-with-copy"><code class="sourceCode java"><span id="cb13-1"><a href=""></a>    <span class="co">// Method to conduct inorder traversal of the tree</span></span>
-<span id="cb13-2"><a href=""></a>    <span class="dt">void</span> <span class="fu">inorder</span><span class="op">()</span> <span class="op">{</span></span>
-<span id="cb13-3"><a href=""></a>        <span class="fu">inorderRec</span><span class="op">(</span>root<span class="op">);</span></span>
-<span id="cb13-4"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb13-5"><a href=""></a></span>
-<span id="cb13-6"><a href=""></a>    <span class="co">// Visit the BT and print out the values</span></span>
-<span id="cb13-7"><a href=""></a>    <span class="co">// in ascending order</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section class="slide level2">
-
 <div class="sourceCode" id="cb14"><pre class="sourceCode numberSource java number-lines code-with-copy"><code class="sourceCode java"><span id="cb14-1"><a href=""></a>    <span class="co">// Method to conduct inorder traversal of the tree</span></span>
 <span id="cb14-2"><a href=""></a>    <span class="dt">void</span> <span class="fu">inorder</span><span class="op">()</span> <span class="op">{</span></span>
 <span id="cb14-3"><a href=""></a>        <span class="fu">inorderRec</span><span class="op">(</span>root<span class="op">);</span></span>
 <span id="cb14-4"><a href=""></a>    <span class="op">}</span></span>
 <span id="cb14-5"><a href=""></a></span>
-<span id="cb14-6"><a href=""></a>    <span class="co">// Recursive function for inorder traversal</span></span>
-<span id="cb14-7"><a href=""></a>    <span class="dt">void</span> <span class="fu">inorderRec</span><span class="op">(</span><span class="bu">Node</span> root<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb14-8"><a href=""></a>        <span class="cf">if</span> <span class="op">(</span>root <span class="op">!=</span> <span class="kw">null</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb14-9"><a href=""></a>            <span class="fu">inorderRec</span><span class="op">(</span>root<span class="op">.</span><span class="fu">left</span><span class="op">);</span></span>
-<span id="cb14-10"><a href=""></a>            <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">print</span><span class="op">(</span>root<span class="op">.</span><span class="fu">value</span> <span class="op">+</span> <span class="st">" "</span><span class="op">);</span></span>
-<span id="cb14-11"><a href=""></a>            <span class="fu">inorderRec</span><span class="op">(</span>root<span class="op">.</span><span class="fu">right</span><span class="op">);</span></span>
-<span id="cb14-12"><a href=""></a>        <span class="op">}</span></span>
-<span id="cb14-13"><a href=""></a>    <span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-6"><a href=""></a>    <span class="co">// Visit the BT and print out the values</span></span>
+<span id="cb14-7"><a href=""></a>    <span class="co">// in ascending order</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section class="slide level2">
 
-<div class="sourceCode" id="cb15"><pre class="sourceCode numberSource java number-lines code-with-copy"><code class="sourceCode java"><span id="cb15-1"><a href=""></a></span>
-<span id="cb15-2"><a href=""></a>    <span class="co">// Main method to test the BinarySearchTree class</span></span>
-<span id="cb15-3"><a href=""></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb15-4"><a href=""></a>        BinarySearchTree bst <span class="op">=</span> <span class="kw">new</span> <span class="fu">BinarySearchTree</span><span class="op">();</span></span>
+<div class="sourceCode" id="cb15"><pre class="sourceCode numberSource java number-lines code-with-copy"><code class="sourceCode java"><span id="cb15-1"><a href=""></a>    <span class="co">// Method to conduct inorder traversal of the tree</span></span>
+<span id="cb15-2"><a href=""></a>    <span class="dt">void</span> <span class="fu">inorder</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb15-3"><a href=""></a>        <span class="fu">inorderRec</span><span class="op">(</span>root<span class="op">);</span></span>
+<span id="cb15-4"><a href=""></a>    <span class="op">}</span></span>
 <span id="cb15-5"><a href=""></a></span>
-<span id="cb15-6"><a href=""></a>        <span class="co">// Insert values into BST</span></span>
-<span id="cb15-7"><a href=""></a>        bst<span class="op">.</span><span class="fu">insert</span><span class="op">(</span><span class="dv">11</span><span class="op">);</span></span>
-<span id="cb15-8"><a href=""></a>        bst<span class="op">.</span><span class="fu">insert</span><span class="op">(</span><span class="dv">5</span><span class="op">);</span></span>
-<span id="cb15-9"><a href=""></a>        bst<span class="op">.</span><span class="fu">insert</span><span class="op">(</span><span class="dv">18</span><span class="op">);</span></span>
-<span id="cb15-10"><a href=""></a>        bst<span class="op">.</span><span class="fu">insert</span><span class="op">(</span><span class="dv">2</span><span class="op">);</span></span>
-<span id="cb15-11"><a href=""></a>        bst<span class="op">.</span><span class="fu">insert</span><span class="op">(</span><span class="dv">6</span><span class="op">);</span>     </span>
-<span id="cb15-12"><a href=""></a>        bst<span class="op">.</span><span class="fu">insert</span><span class="op">(</span><span class="dv">11</span><span class="op">);</span></span>
-<span id="cb15-13"><a href=""></a>        bst<span class="op">.</span><span class="fu">insert</span><span class="op">(</span><span class="dv">36</span><span class="op">);</span></span>
-<span id="cb15-14"><a href=""></a>        bst<span class="op">.</span><span class="fu">insert</span><span class="op">(</span><span class="dv">0</span><span class="op">);</span>     </span>
-<span id="cb15-15"><a href=""></a></span>
-<span id="cb15-16"><a href=""></a>        <span class="co">// Print the inorder traversal of the BST</span></span>
-<span id="cb15-17"><a href=""></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"Inorder traversal of the BST:"</span><span class="op">);</span></span>
-<span id="cb15-18"><a href=""></a>        bst<span class="op">.</span><span class="fu">inorder</span><span class="op">();</span></span>
-<span id="cb15-19"><a href=""></a>    <span class="op">}</span></span>
-<span id="cb15-20"><a href=""></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-6"><a href=""></a>    <span class="co">// Recursive function for inorder traversal</span></span>
+<span id="cb15-7"><a href=""></a>    <span class="dt">void</span> <span class="fu">inorderRec</span><span class="op">(</span><span class="bu">Node</span> root<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb15-8"><a href=""></a>        <span class="cf">if</span> <span class="op">(</span>root <span class="op">!=</span> <span class="kw">null</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb15-9"><a href=""></a>            <span class="fu">inorderRec</span><span class="op">(</span>root<span class="op">.</span><span class="fu">left</span><span class="op">);</span></span>
+<span id="cb15-10"><a href=""></a>            <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">print</span><span class="op">(</span>root<span class="op">.</span><span class="fu">value</span> <span class="op">+</span> <span class="st">" "</span><span class="op">);</span></span>
+<span id="cb15-11"><a href=""></a>            <span class="fu">inorderRec</span><span class="op">(</span>root<span class="op">.</span><span class="fu">right</span><span class="op">);</span></span>
+<span id="cb15-12"><a href=""></a>        <span class="op">}</span></span>
+<span id="cb15-13"><a href=""></a>    <span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section></section>
+<section>
+<section id="analysis" class="title-slide slide level1 center">
+<h1>Analysis</h1>
+
 </section>
 <section id="good-properties" class="slide level2">
 <h2>Good properties</h2>
@@ -910,7 +953,7 @@ AP
 <div>
 <ul>
 <li class="fragment"><p>Tree: a new abstration, relatively easy to code and lightweight</p></li>
-<li class="fragment"><p>Binary Search Trees: a tree organisation that makes values easy to sort/search</p></li>
+<li class="fragment"><p>Binary Search Trees: a type of tree that makes values easy to sort/search</p></li>
 <li class="fragment"><p>However BST may degenerate into (costly) <em>straight lists</em></p></li>
 <li class="fragment"><p>We need techniques to turn arbitrary sequences into balanced BST</p></li>
 </ul>
@@ -920,7 +963,7 @@ AP
 
 </div>
 </div>
-</section>
+</section></section>
     </div>
   </div>
 
