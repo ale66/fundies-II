@@ -560,9 +560,9 @@ stateDiagram-v2
 
 ## Conclusions 
 
-Sorting arrays with BubbleSort: easy to visualise+implement but costly
+BubbleSort: easy to visualise+implement but costly
 
-Many comparisons are repeated: waste of time, costs grow with $n^2$
+Many comparisons are pointless; costs grow with $n^2$
 
 Arrays: a straightforward abstraction of RAM
 
